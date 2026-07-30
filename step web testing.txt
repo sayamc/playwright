@@ -1,0 +1,57 @@
+# https://www.borntodev.com/2024/12/08/automated-web-testing-with-playwright/
+
+# วิธีการรันเทส
+โดยใน workshop นี้ผมจะใช้ Node.js เป็น Web Server เพื่อมารันไฟล์หน้าเว็บ ก็จะติดตั้ง http-server โดยการใช้คำสั่ง
+$ npm install -D http-server
+
+ติดตั้งแล้วก็เริ่มรัน server
+$ npm run serve
+
+> serve
+> npx http-server .
+
+Starting up http-server, serving .
+
+http-server version: 14.1.1
+
+http-server settings: 
+CORS: disabled
+Cache: 3600 seconds
+Connection Timeout: 120 seconds
+Directory Listings: visible
+AutoIndex: visible
+Serve GZIP Files: false
+Serve Brotli Files: false
+Default File Extension: none
+
+Available on:
+  http://127.0.0.1:8080
+  http://192.168.1.104:8080
+Hit CTRL-C to stop the server
+
+# เมื่อรันคำสั่ง npm run serve ระบบได้ใช้ http-server เพื่อสร้างเซิร์ฟเวอร์ที่ทำงานบนพอร์ต 8080 พร้อมรองรับการเข้าถึงผ่าน IP หลายค่า เช่น http://127.0.0.1:8080 และ IP ภายในเครือข่าย 
+
+โดยเทสที่เราเขียนไว้ก็จะครอบคลุม
+    การล็อกอินสำเร็จ
+    การล็อกอินไม่สำเร็จ
+    การตรวจสอบ required fields
+    การตรวจสอบ password input type
+มาลองรันกันเลย โดยคำสั่งแรกใช้เป็น npm test
+$ npm test
+> test
+> playwright test
+
+เราสามารถเปิด report ที่เป็นหน้าเว็บได้โดยการใช้คำสั่ง npx playwright show-report
+$ npx playwright show-report
+# =>  show web page result
+
+# รันสั่งด้วย  ui
+$ npm run test:ui
+
+----------------------------------------------------------------------------------
+# youtube train playwright
+https://playwright.dev/
+
+# ปูพื้นฐานและฝึกทำ Automated testing ผ่าน Playwright | Part01
+https://www.saucedemo.com
+https://www.youtube.com/watch?v=wBf4vx03Tw4

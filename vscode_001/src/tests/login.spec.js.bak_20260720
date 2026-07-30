@@ -1,0 +1,55 @@
+//import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test } from "../pages/base";           // uses test from own base file
+import { LoginPage } from "../pages/login.page";
+
+/*  Method 1  */
+/*
+// Setup
+// Open Browser
+let browser
+let page;
+test.beforeAll(async () => {
+    browser = await firefox.launch();
+    page = await browser.newPage();
+})
+// TearDown
+// Close Browser
+test.afterAll(async () => {
+    //page.close();
+    browser.close();
+});
+*/
+
+/*  Method 2  Same Result Method 1  */
+/*
+// Setup + Open Browser + Tear Down + Close Browser
+test('Input fileds should display as the data that was filed', async ({page}) => {
+    await page.goto('https://www.saucedemo.com/');
+});
+*/
+// Test Login
+test('Input fileds should display as the data that was filed', async ({page}) => {
+/*
+    // Referrent
+    await page.goto('https://www.saucedemo.com/');
+    await page.locator('#user-name').fill('testuser');  // (#id) . fill (value) => inspect from web page
+    expect(await page.locator('#user-name').inputValue()).toBe('testuser')  // expect compare with insert value
+    await page.locator('#password').fill('password');
+    expect(await page.locator('#password').inputValue()).toBe('password')
+*/  
+    // call class LoginPage
+    const loginPage = new LoginPage(page);      // define class from login.page.js
+    //await loginPage.goto();                   // method 1 fixed baseurl in class loginPage.
+    //await loginPage.goto('https://www.saucedemo.com/'); // method 2 send baseurl from parent function
+    const baseurl = 'https://www.saucedemo.com/';       // method 2 define const baseurl
+    await loginPage.goto(baseurl);            // method 2
+
+
+    await loginPage.fillUserPassword('testuser', 'password');   // (#id) . fill (value) => inspect from web page
+    //await loginPage.fillUserPassword('testuser', 'password1');
+    expect(await loginPage.getUsername()).toBe('testuser');     // expect compare with insert value and getUsername()
+    expect(await loginPage.getPassword()).toBe('password');
+    //expect(await loginPage.getPassword()).toBe('password1');
+
+});

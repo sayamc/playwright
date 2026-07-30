@@ -1,0 +1,16 @@
+1. Install Node.js and Update System packages
+$ sudo apt update && sudo apt upgrade -y
+$ sudo apt install nodejs npm -y
+
+2. Initialize Your Playwright Project
+$ mkdir playwright-tests && cd playwright-tests
+$ npm init playwright@latest
+
+3. Install the necessary system packages and OS libraries
+$ npx playwright install-deps
+
+# Download the bundled browser binaries (Chromium, Firefox, WebKit)
+$ npx playwright install
+
+4. Verify the Installation
+$ npx playwright test

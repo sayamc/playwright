@@ -1,0 +1,14 @@
+/**
+ * Theme Name: salient-child
+ * Template:   salient
+ * Author: BorntoDev
+ * Description: Child theme for edit theme template
+ * version: 1.0.0
+ * ...other header fields
+ */
+
+ @media only screen and (min-width: 1px) and (max-width: 1244px) {
+    #slide-out-widget-area .mobile-only {
+        display: block;
+    }
+}

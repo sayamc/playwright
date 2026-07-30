@@ -1,0 +1,43 @@
+import { expect, test } from "@playwright/test";
+import { LoginPage } from "../pages/login.page";
+
+
+/*
+// Open Browser
+let browser;
+let page;
+test.beforeAll(async () => {
+    browser = await firefox.launch();
+    page = await browser.newPage();
+})
+// Close Browser
+test.afterAll(async () => {
+    //page.close();
+    browser.close();
+});
+
+test('Input fileds should display as the data that was filed', async ({}) => {
+  blah...blah...blah...
+});
+*/
+
+// Test Login
+test('Input fileds should display as the data that was filed', async ({ page }) => {
+/*    // use "page" from playwright
+    await page.goto('https://www.saucedemo.com/');
+    await page.locator('#user-name').fill('testuser');  // (#id) . fill (value) => inspect from web page
+    expect(await page.locator('#user-name').inputValue()).toBe('testuser')  // expect compare with insert value
+    await page.locator('#password').fill('password');
+    expect(await page.locator('#password').inputValue()).toBe('password')
+
+*/  
+    // call Fixtures in class LoginPage
+    const loginPage = new LoginPage(page);      // define class from login.page.js
+    await loginPage.goto();                     // method 1 fixed baseurl in class loginPage.
+
+    await loginPage.fillUserPassword('testuser', 'password');   // (#id) . fill (value) => inspect from web page
+    expect(await loginPage.getUsername()).toBe('testuser');     // expect compare with insert value and getUsername()
+    expect(await loginPage.getPassword()).toBe('password');  
+
+});
+
