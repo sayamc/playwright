@@ -55,7 +55,7 @@ test.beforeEach(async ({ loginFixture }) => {             // Uses Fixtures "logi
 });
 
 //test.only('...', async ({ loginFixture }) => {           // .only, skip use for test only case or skip case
-test.only('Input fileds should display as the data that was filed', async ({ loginFixture }) => {
+test('Input fileds should display as the data that was filed', async ({ loginFixture }) => {
     // (#id) . fill (value) => inspect from web page
     await loginFixture.fillUserPassword('testuser', 'password');   // sent ('testuser','password') to function "fillUserPassword".   
 
@@ -90,7 +90,7 @@ test('Should show error an message if log in with both fileds blank', async ({ l
     expect(loginFixture.isValidUrl()).toBe(true);   // check url == "true"
 });
 
-test('Verify successful login:', async ({ loginFixture}) => {
+test.only('Verify successful login:', async ({ loginFixture}) => {
     await loginFixture.fillUserPassword('standard_user', 'secret_sauce');       // sent username+password success to function "fillUserPassword".   
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
