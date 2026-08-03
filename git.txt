@@ -1,6 +1,5 @@
 https://github.com/sayamc/playwright
 
-
 Quick setup — if you’ve done this kind of thing before
 
 Get started by creating a new file or uploading an existing file. We recommend every repository include a README, LICENSE, and .gitignore.
@@ -46,14 +45,38 @@ Gtk-Message: 13:23:05.882: Failed to load module "appmenu-gtk-module"
 $ gh auth status
 
 ------------------------------------------------------------------------------------------------------------------------------------
-# Git add 
-git add .	# or => git add --all
-git commit -m "Your commit message"
-git push origin main
-
+git init 				// เริ่มต้นสร้างที่เก็บโค้ดในเครื่อง
+git config --global user.email "sayam.c@entronica.co.th"
+git config --global user.name "sayamc"
+git config --list
 git status
 git log
+git init
 
-git checkout -b "new-branch-name"
-git push origin "new-branch-name"
+git branch --list			// แสดงรายชื่อ local branch ทั้งหมด
+git branch -r				// แสดงรายชื่อ remote branch ทั้งหมด
+git branch -a				// แสดงรายชื่อ branch ทั้ง local branch และ remote branch
+git branch [ชื่อ branch]			// สร้าง branch ใหม่
+git checkout -b "new-branch-name"	// create new branch
+git branch -M [ชื่อ branch] 		// เปลี่ยนชื่อโดยที่ไม่สนใจว่า branch นั้นจะมีอยู่แล้วรึเปล่า
+git checkout "branch-name"		// git checkout หรือ git switch ; change to branch
+git branch -D [ชื่อ branch]		// ลบ branch โดยที่ไม่จำเป็นต้อง merge ลบทิ้งไปเฉยๆเลย
+git diff				// check different data in all file.
+
+git checkout master			// checkout to master/origin
+git merge my_new_branch			// ไฟล์ที่อยู่ใน my_new_branch ก็จะเข้ามาอยู่ใน master/origin แล้ว
+
+# Git add 
+git add .	# or => git add --all	// add file preapre to git server. 
+git commit -m "Your commit message"	// commit file 
+git push origin "branch-name"		// upload file to server
+git pull 				// Downloads data and integrates it.
+git fetch --all				// Downloads data only.
+git reset				// เป็นการย้อน version ไฟล์ให้กลับไปอยู่ในสภาพเดิมก่อนที่จะ add ไฟล์เข้าสู่ stage
+
+
+# Git clone
+git clone https://github.com/sayamc/playwright.git
+git clone git@github.com:sayamc/playwright.git
+git clone -b "branch-name" git@github.com:sayamc/playwright.git
 

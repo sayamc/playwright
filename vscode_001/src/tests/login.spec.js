@@ -90,7 +90,7 @@ test('Should show error an message if log in with both fileds blank', async ({ l
     expect(loginFixture.isValidUrl()).toBe(true);   // check url == "true"
 });
 
-test('Verify successful login:', async ({ loginFixture}) => {
+test.only('Verify successful login:', async ({ loginFixture}) => {
     await loginFixture.fillUserPassword('standard_user', 'secret_sauce');       // sent username+password success to function "fillUserPassword".   
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
@@ -101,7 +101,7 @@ test('Verify successful login:', async ({ loginFixture}) => {
 
 // User Test loop
 validUsers.forEach(({ username, password }) => {
-    test.only(`Should logged in successfully with valid credentials: ${username}`, async ({ loginFixture }) => {
+    test(`Should logged in successfully with valid credentials: ${username}`, async ({ loginFixture }) => {
         await loginFixture.fillUserPassword(username, password);   // login fill with username, password parameter.
         await loginFixture.clickLogin();
         expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
