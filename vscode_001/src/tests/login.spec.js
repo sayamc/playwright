@@ -90,7 +90,7 @@ test('Should show error an message if log in with both fileds blank', async ({ l
     expect(loginFixture.isValidUrl()).toBe(true);   // check url == "true"
 });
 
-test.only('Verify successful login:', async ({ loginFixture}) => {
+test('Verify successful login:', async ({ loginFixture}) => {
     await loginFixture.fillUserPassword('standard_user', 'secret_sauce');       // sent username+password success to function "fillUserPassword".   
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
@@ -116,4 +116,26 @@ invalidUsers.forEach(({ username, password }) => {
         expect(await loginFixture.getErrorMessage()).toContain('Epic sadface'); // should be not have error message
         expect(loginFixture.isValidUrl()).toBe(true);
     });
+});
+
+test('Check select product and check out: ', async ({ loginFixture }) => {
+    await loginFixture.fillUserPassword('standard_user', 'secret_sauce');
+    await loginFixture.clickLogin();
+    expect(await loginFixture.getErrorMessage()).not.toContain('is required');
+    // return url = https://www.saucedemo.com/inventory.html, then return "false"
+
+    const Count = await loginFixture.sauceLabs();
+    await loginFixture.showDetailProductList(Count);
+    await loginFixture.checkoutInformation('Gorge','MacJay','123456');
+    await loginFixture.checkoutOverview();
+    await loginFixture.checkoutComplete();
+});
+
+test.only('Test click right component: ', async ({ loginFixture }) => {
+    await loginFixture.fillUserPassword('standard_user', 'secret_sauce');
+    await loginFixture.clickLogin();
+    expect(await loginFixture.getErrorMessage()).not.toContain('is required');
+    // return url = https://www.saucedemo.com/inventory.html, then return "false"
+
+    await loginFixture.rightComponent();
 });

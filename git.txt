@@ -64,7 +64,7 @@ git branch -D [ชื่อ branch]		// ลบ branch โดยที่ไม�
 git diff				// check different data in all file.
 
 git checkout master			// checkout to master/origin
-git merge my_new_branch			// ไฟล์ที่อยู่ใน my_new_branch ก็จะเข้ามาอยู่ใน master/origin แล้ว
+git merge new_branch			// ไฟล์ที่อยู่ใน new_branch ก็จะเข้ามาอยู่ใน master/origin แล้ว
 
 # Git add 
 git add .	# or => git add --all	// add file preapre to git server. 
@@ -76,7 +76,8 @@ git reset				// เป็นการย้อน version ไฟล์ให้�
 
 
 # Git clone
-git clone https://github.com/sayamc/playwright.git
+git clone https://github.com/sayamc/playwright.gi
 git clone git@github.com:sayamc/playwright.git
 git clone -b "branch-name" git@github.com:sayamc/playwright.git
+
 
