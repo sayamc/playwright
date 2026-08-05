@@ -48,13 +48,14 @@ test('Input fileds should display as the data that was filed', async ({}) => {
 
 // This part uses Fixtures from file "../pages/base" 
 // call loginFixture than define "const loginFixture = new LoginPage(page);"
+// ".beforeEach/.afterEach" run this first/last function every time to run. !!
 test.beforeEach(async ({ loginFixture }) => {             // Uses Fixtures "loginFixture" => "LoginPage"
     //const baseurl = 'https://www.saucedemo.com/';       // method 2 define const baseurl
     //await loginFixture.goto(baseurl);
     await loginFixture.goto();
 });
 
-//test.only('...', async ({ loginFixture }) => {           // .only, skip use for test only case or skip case
+//test.only/.skip('...', async ({ loginFixture }) => {           // .only/.skip, skip use for test only/skip case or skip case
 test('Input fileds should display as the data that was filed', async ({ loginFixture }) => {
     // (#id) . fill (value) => inspect from web page
     await loginFixture.fillUserPassword('testuser', 'password');   // sent ('testuser','password') to function "fillUserPassword".   
@@ -90,12 +91,14 @@ test('Should show error an message if log in with both fileds blank', async ({ l
     expect(loginFixture.isValidUrl()).toBe(true);   // check url == "true"
 });
 
-test('Verify successful login:', async ({ loginFixture}) => {
+test('Verify successful login:', async ({ loginFixture }) => {
     await loginFixture.fillUserPassword('standard_user', 'secret_sauce');       // sent username+password success to function "fillUserPassword".   
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
     expect(loginFixture.isValidUrl()).toBe(false);
-    // return url = https://www.saucedemo.com/inventory.html, then return "false"
+    // return url = https://www.saucedemo.com/inventory.html
+    // baseurl    = https://www.saucedemo.com , then return "false"
+
     await loginFixture.welcome('standard_user');
 });
 
@@ -131,11 +134,9 @@ test('Check select product and check out: ', async ({ loginFixture }) => {
     await loginFixture.checkoutComplete();
 });
 
-test.only('Test click right component: ', async ({ loginFixture }) => {
+test('Test click right component: ', async ({ loginFixture }) => {
     await loginFixture.fillUserPassword('standard_user', 'secret_sauce');
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required');
-    // return url = https://www.saucedemo.com/inventory.html, then return "false"
-
     await loginFixture.rightComponent();
 });

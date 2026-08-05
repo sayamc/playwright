@@ -51,5 +51,4 @@ test('Input fileds should display as the data that was filed', async ({page}) =>
     expect(await loginPage.getUsername()).toBe('testuser');     // expect compare with insert value and getUsername()
     expect(await loginPage.getPassword()).toBe('password');
     //expect(await loginPage.getPassword()).toBe('password1');
-
 });
