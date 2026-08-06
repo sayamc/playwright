@@ -91,17 +91,6 @@ test('Should show error an message if log in with both fileds blank', async ({ l
     expect(loginFixture.isValidUrl()).toBe(true);   // check url == "true"
 });
 
-test('Verify successful login:', async ({ loginFixture }) => {
-    await loginFixture.fillUserPassword('standard_user', 'secret_sauce');       // sent username+password success to function "fillUserPassword".   
-    await loginFixture.clickLogin();
-    expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
-    expect(loginFixture.isValidUrl()).toBe(false);
-    // return url = https://www.saucedemo.com/inventory.html
-    // baseurl    = https://www.saucedemo.com , then return "false"
-
-    await loginFixture.welcome('standard_user');
-});
-
 // User Test loop
 validUsers.forEach(({ username, password }) => {
     test(`Should logged in successfully with valid credentials: ${username}`, async ({ loginFixture }) => {
@@ -121,22 +110,36 @@ invalidUsers.forEach(({ username, password }) => {
     });
 });
 
-test('Check select product and check out: ', async ({ loginFixture }) => {
+test.only('Verify login, change fillter, select product, clear product item and logout success:', async ({ loginFixture }) => {
+    await loginFixture.fillUserPassword('standard_user', 'secret_sauce');       // sent username+password success to function "fillUserPassword".   
+    await loginFixture.clickLogin();
+    expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
+    expect(loginFixture.isValidUrl()).toBe(false);
+    // return url = https://www.saucedemo.com/inventory.html
+    // baseurl    = https://www.saucedemo.com , then return "false"
+
+    await loginFixture.welcome('standard_user');    // welcome user message.
+    await loginFixture.rightComponent();            // change fillter.
+    await loginFixture.selectItems();
+    await loginFixture.showDetailProductList();     // show detail product items.
+    await loginFixture.resetAppState();             // reset clear product items.
+    await loginFixture.allItems();                  // change to page all items.
+    await loginFixture.logOut();                    // logout.
+});
+
+test('Check select product and checkout complete: ', async ({ loginFixture }) => {
     await loginFixture.fillUserPassword('standard_user', 'secret_sauce');
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required');
-    // return url = https://www.saucedemo.com/inventory.html, then return "false"
+    expect(loginFixture.isValidUrl()).toBe(false);
 
-    const Count = await loginFixture.sauceLabs();
-    await loginFixture.showDetailProductList(Count);
+    await loginFixture.selectItems();
+    await loginFixture.showDetailProductList();
+    await loginFixture.continueShopping();              // back to page show all product.
+    await loginFixture.removeItems();
+    await loginFixture.showDetailProductList();
     await loginFixture.checkoutInformation('Gorge','MacJay','123456');
     await loginFixture.checkoutOverview();
     await loginFixture.checkoutComplete();
 });
 
-test('Test click right component: ', async ({ loginFixture }) => {
-    await loginFixture.fillUserPassword('standard_user', 'secret_sauce');
-    await loginFixture.clickLogin();
-    expect(await loginFixture.getErrorMessage()).not.toContain('is required');
-    await loginFixture.rightComponent();
-});

@@ -83,88 +83,29 @@ export class LoginPage {
     }
 
     async welcome(username) {
-        console.log('Welcome Back:', username);
-        // After login = Products
+        console.log('This welcome:', username);
         console.log('First message login:', await this.page.locator('[data-test="title"]').textContent(), '\n');    // .innerText();
+        // After login = Products
+        console.log('Footer:', await this.page.locator('[data-test="footer-copy"]').textContent());
     }
 
-    async sauceLabs() {
-        console.log('##', await this.page.locator('[data-test="title"]').textContent(), '##');
-
-        // choose product.
-        console.log('Sauce Labs Backpack:', await this.page.locator('[data-test="inventory-item-desc"]').nth(0).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsBackpack);
-
-        console.log('Sauce Labs Bike Light:', await this.page.locator('[data-test="inventory-item-desc"]').nth(1).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsBikeLight);
-
-        console.log('Sauce Labs Bolt T-Shirt:', await this.page.locator('[data-test="inventory-item-desc"]').nth(2).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsBoltTShirt);
-        
-        console.log('Sauce Labs Fleece Jacket:', await this.page.locator('[data-test="inventory-item-desc"]').nth(3).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsFleeceJacket);
-
-        console.log('Sauce Labs Onesie:', await this.page.locator('[data-test="inventory-item-desc"]').nth(4).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsOnesie);
-
-        console.log('Test.allTheThings() T-Shirt (Red):', await this.page.locator('[data-test="inventory-item-desc"]').nth(5).textContent(),'\n');
-        await this.page.click(this.locatorAddTestAllTheThingTShirtRed);
-        
-        // count amount product select.
-        const cartCount = await this.page.locator(this.locatorShoppingCartContainer).innerText();
-        //console.log('cartCount = ', cartCount);     // print cartCount.
-        return cartCount;
+    async resetAppState() {
+        console.log('This reset app state.');
+        await this.page.click('#react-burger-menu-btn');    // Push menu button.
+        await this.page.click('#reset_sidebar_link');       // Select reset app state button.
+        await this.page.click('#react-burger-cross-btn');   // Push cross menu button.
     }
 
-    async showDetailProductList(Count) {
-        await this.page.click(this.locatorShoppingCartContainer); // click shopping_cart_container button.      
-        //console.log('Count number = ',Count);
-        // check and remove-sauce-labs-onesie
-        //console.log('element = ', await this.page.locator('#remove-sauce-labs-onesie').count());
-        if ( await this.page.locator('#remove-sauce-labs-onesie').count() > 0 ) {
-            console.log('This locator are: Have product onesie.');
-            await this.page.click('#remove-sauce-labs-onesie');     // remove product 'onesie'
-            const removeCount = await this.page.locator(this.locatorShoppingCartContainer).innerText();
-            if ( removeCount > 0 ) {
-                console.log('cartCount After Remove: ', removeCount);
-            }
-        }
-        else {
-            console.log('This locator are: Not have product onesie.');
-        }
+    async allItems() {
+        console.log('This allItem.');
+        await this.page.click('#react-burger-menu-btn');    // Push menu button.
+        await this.page.click('#inventory_sidebar_link');   // Select all items button.
     }
 
-    async continueShopping() {
-        //const messageContinue = await this.page.locator('#continue-shopping').textContent();
-        // result same under line.
-        const messageContinue = await this.page.locator('#continue-shopping').innerText();
-        console.log('messageContinue: ', messageContinue);
-        await this.page.click('#continue-shopping');
-    }
-
-    async checkoutInformation(firstname, lastname, postcode) {
-    //async checkoutInformation() {
-        console.log('This is CheckoutInformation !!')
-        await this.page.click('#checkout');     // click checkout button.
-        console.log('Recive Text Message = ', firstname, ':', lastname, ':',postcode);
-        await this.page.locator(this.locatorFirstName).fill(firstname);
-        await this.page.locator(this.locatorLastName).fill(lastname);
-        await this.page.locator(this.locatorPostCode).fill(postcode);
-
-        //await this.page.click('#cancel');       // click cancle to backward.
-        await this.page.click('#continue');     // click continue to CheckoutOverview.
-    }
-
-    async checkoutOverview() {
-        //await this.page.click('#cancel');     // click cancel.
-        await this.page.click('#finish');       // click finish button.
-        //await this.checkoutComplete();
-    }
-
-    async checkoutComplete() {
-        console.log('Thank you for your order.\n');
-        //await this.page.click('#back-to-products');
-        await this.page.click('#generate-pdf-order');   // Generate pdf order Receipt.
+    async logOut() {
+        console.log('This logout button.');
+        await this.page.click('#react-burger-menu-btn'); // Push menu button.
+        await this.page.click('#logout_sidebar_link');   // Select log out button.
     }
 
     async rightComponent() {
@@ -181,6 +122,108 @@ export class LoginPage {
         await this.page.click('[data-test="product-sort-container"]');
         await this.page.locator('[data-test="product-sort-container"]').selectOption('az');	// az, za, lohi, hilo
     }
+
+    async selectItems() {
+        console.log('##', await this.page.locator('[data-test="title"]').textContent(), '##');
+        const count = await this.page.locator('[data-test="inventory-item"]').count();
+        console.log('count =', count);       
+        // for loop to print all items.
+        for (let i = 0; i < count; i++) {
+            console.log(await this.page.locator('[data-test="inventory-item-name"]').nth(i).textContent(), ':', await this.page.locator('[data-test="inventory-item-desc"]').nth(i).textContent(),'\n');
+        }
+        // select item product.
+        await this.page.click(this.locatorAddSauceLabsBackpack);
+        await this.page.click(this.locatorAddSauceLabsBikeLight);
+        await this.page.click(this.locatorAddSauceLabsBoltTShirt);
+        await this.page.click(this.locatorAddSauceLabsFleeceJacket);
+        await this.page.click(this.locatorAddSauceLabsOnesie);
+        await this.page.click(this.locatorAddTestAllTheThingTShirtRed);
+
+        /*
+        console.log('Sauce Labs Backpack:', await this.page.locator('[data-test="inventory-item-desc"]').nth(0).textContent(),'\n');
+        await this.page.click(this.locatorAddSauceLabsBackpack);
+        console.log('Sauce Labs Bike Light:', await this.page.locator('[data-test="inventory-item-desc"]').nth(1).textContent(),'\n');
+        await this.page.click(this.locatorAddSauceLabsBikeLight);
+        console.log('Sauce Labs Bolt T-Shirt:', await this.page.locator('[data-test="inventory-item-desc"]').nth(2).textContent(),'\n');
+        await this.page.click(this.locatorAddSauceLabsBoltTShirt);
+        console.log('Sauce Labs Fleece Jacket:', await this.page.locator('[data-test="inventory-item-desc"]').nth(3).textContent(),'\n');
+        await this.page.click(this.locatorAddSauceLabsFleeceJacket);
+        console.log('Sauce Labs Onesie:', await this.page.locator('[data-test="inventory-item-desc"]').nth(4).textContent(),'\n');
+        await this.page.click(this.locatorAddSauceLabsOnesie);
+        console.log('Test.allTheThings() T-Shirt (Red):', await this.page.locator('[data-test="inventory-item-desc"]').nth(5).textContent(),'\n');
+        await this.page.click(this.locatorAddTestAllTheThingTShirtRed);
+        */
+    }
+
+    async showDetailProductList() {
+        console.log('This showDetailProductList');
+        await this.page.click(this.locatorShoppingCartContainer); // click shopping_cart_container button.    
+        console.log(await this.page.locator('[data-test="secondary-header"]').textContent());   // show header-container
+        const count = await this.page.locator(this.locatorShoppingCartContainer).textContent();
+        console.log('count =', count);        
+        console.log('##', await this.page.locator('[data-test="cart-desc-label"]').textContent(), '##');
+        // for loop to print select items.
+        for (let i = 0; i < count; i++) {
+            console.log(await this.page.locator('[data-test="inventory-item-name"]').nth(i).textContent(), ':', await this.page.locator('[data-test="inventory-item-desc"]').nth(i).textContent(),'\n');
+        }
+    }
+
+    async removeItems() {
+        console.log('This removeItems');   
+        // check and remove-sauce-labs-onesie
+        //console.log('element = ', await this.page.locator('#remove-sauce-labs-onesie').count());
+        if ( await this.page.locator('#remove-sauce-labs-onesie').count() > 0 ) {
+            console.log('This locator are: Have product onesie.');
+            await this.page.click('#remove-sauce-labs-onesie');     // remove product 'onesie'
+            const removeCount = await this.page.locator(this.locatorShoppingCartContainer).innerText();
+            if ( removeCount > 0 ) {
+                console.log('cartCount After Remove: ', removeCount);
+            }
+        }
+        else {
+            console.log('This locator are: Not have product onesie items.');
+        }
+    }
+
+    async continueShopping() {
+        console.log('This is continue Shopping.')
+        await this.page.click('#continue-shopping');     // click continue-shopping button.
+    }
+
+    async checkoutInformation(firstname, lastname, postcode) {
+    //async checkoutInformation() {
+        console.log('This is CheckoutInformation !!')
+        await this.page.click('#checkout');     // click checkout button.
+        console.log('Recive Text Message = ', firstname, ':', lastname, ':',postcode);
+        await this.page.locator(this.locatorFirstName).fill(firstname);
+        await this.page.locator(this.locatorLastName).fill(lastname);
+        await this.page.locator(this.locatorPostCode).fill(postcode);
+
+        //await this.page.click('#cancel');       // click cancle to backward.
+        await this.page.click('#continue');     // click continue to CheckoutOverview.
+    }
+
+    async checkoutOverview() {
+        console.log('This checkoutOverview');
+        console.log(await this.page.locator('[data-test="payment-info-label"]').textContent());
+        console.log(await this.page.locator('[data-test="payment-info-value"]').textContent());
+        console.log(await this.page.locator('[data-test="shipping-info-label"]').textContent());
+        console.log(await this.page.locator('[data-test="shipping-info-value"]').textContent());
+        console.log(await this.page.locator('[data-test="total-info-label"]').textContent());
+        console.log(await this.page.locator('[data-test="subtotal-label"]').textContent());
+        console.log(await this.page.locator('[data-test="tax-label"]').textContent());
+        console.log(await this.page.locator('[data-test="total-label"]').textContent(), '\n');
+        //await this.page.click('#cancel');     // click cancel.
+        await this.page.click('#finish');       // click finish button.
+        //await this.checkoutComplete();
+    }
+
+    async checkoutComplete() {
+        console.log('Thank you for your order.\n');
+        //await this.page.click('#back-to-products');
+        await this.page.click('#generate-pdf-order');   // Generate pdf order Receipt.
+    }
+
 }
 
 /*
