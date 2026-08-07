@@ -110,16 +110,16 @@ invalidUsers.forEach(({ username, password }) => {
     });
 });
 
-test.only('Verify login, change fillter, select product, clear product item and logout success:', async ({ loginFixture }) => {
-    await loginFixture.fillUserPassword('standard_user', 'secret_sauce');       // sent username+password success to function "fillUserPassword".   
+test('Verify login, change fillter, select product, clear product item and logout success:', async ({ loginFixture }) => {
+    await loginFixture.fillUserPassword(username, password);       // sent username+password success to function "fillUserPassword".   
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
     expect(loginFixture.isValidUrl()).toBe(false);
     // return url = https://www.saucedemo.com/inventory.html
     // baseurl    = https://www.saucedemo.com , then return "false"
 
-    await loginFixture.welcome('standard_user');    // welcome user message.
-    await loginFixture.rightComponent();            // change fillter.
+    await loginFixture.welcome('username');    // welcome user message.
+    await loginFixture.changeFilter();              // change fillter.
     await loginFixture.selectItems();
     await loginFixture.showDetailProductList();     // show detail product items.
     await loginFixture.resetAppState();             // reset clear product items.
@@ -128,7 +128,7 @@ test.only('Verify login, change fillter, select product, clear product item and 
 });
 
 test('Check select product and checkout complete: ', async ({ loginFixture }) => {
-    await loginFixture.fillUserPassword('standard_user', 'secret_sauce');
+    await loginFixture.fillUserPassword(username, password);
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required');
     expect(loginFixture.isValidUrl()).toBe(false);
@@ -138,8 +138,18 @@ test('Check select product and checkout complete: ', async ({ loginFixture }) =>
     await loginFixture.continueShopping();              // back to page show all product.
     await loginFixture.removeItems();
     await loginFixture.showDetailProductList();
-    await loginFixture.checkoutInformation('Gorge','MacJay','123456');
+    await loginFixture.checkoutInformation(firstname,lastname,postcode);
     await loginFixture.checkoutOverview();
     await loginFixture.checkoutComplete();
 });
 
+const username = 'standard_user';
+const password = 'secret_sauce';
+const firstname = 'Gorge';
+const lastname = 'MacJay';
+const postcode = '123456';
+/*
+standard_user ,performance_glitch_user, visual_user
+problem_user, error_user
+locked_out_user, test_user
+*/

@@ -52,7 +52,8 @@ export class LoginPage {
         await this.page.click(this.locatorButtonLogin);                 // click locatorButtonLogin button.
     }
 
-    async getUsername() {   // return locatorUsername value
+    async getUsername() {   // return locatorUsername value 
+        // .inputValue();   ใช้สำหรับดึงค่า value ที่ถูกกรอกเอาไว้
         return await this.page.locator(this.locatorUsername).inputValue();
     }
     
@@ -108,8 +109,8 @@ export class LoginPage {
         await this.page.click('#logout_sidebar_link');   // Select log out button.
     }
 
-    async rightComponent() {
-        console.log('Test click right Component');
+    async changeFilter() {
+        console.log('Test click changeFilter');
         await this.page.click('[data-test="product-sort-container"]');
         await this.page.locator('[data-test="product-sort-container"]').selectOption('za');	// az, za, lohi, hilo
         
@@ -125,33 +126,38 @@ export class LoginPage {
 
     async selectItems() {
         console.log('##', await this.page.locator('[data-test="title"]').textContent(), '##');
-        const count = await this.page.locator('[data-test="inventory-item"]').count();
+        const count = await this.page.locator('[data-test="inventory-item"]').count();  // count all list item name
         console.log('count =', count);       
         // for loop to print all items.
         for (let i = 0; i < count; i++) {
             console.log(await this.page.locator('[data-test="inventory-item-name"]').nth(i).textContent(), ':', await this.page.locator('[data-test="inventory-item-desc"]').nth(i).textContent(),'\n');
         }
-        // select item product.
-        await this.page.click(this.locatorAddSauceLabsBackpack);
-        await this.page.click(this.locatorAddSauceLabsBikeLight);
-        await this.page.click(this.locatorAddSauceLabsBoltTShirt);
-        await this.page.click(this.locatorAddSauceLabsFleeceJacket);
-        await this.page.click(this.locatorAddSauceLabsOnesie);
-        await this.page.click(this.locatorAddTestAllTheThingTShirtRed);
 
+        // select item product.
+        /* .toContain() เป็นคำสั่งเช็คข้อมูลทั่วไปในหน่วยความจำ เช่น อาเรย์หรือข้อความในตัวแปรแบบทันทีทันใด 
+           .toContainText() เป็นคำสั่งสำหรับเช็คข้อความบนหน้าเว็บ  */
+        //await this.page.locator(this.locatorAddSauceLabsBackpack).click();
+            // upper or underline can uses same.
+        await this.page.click(this.locatorAddSauceLabsBackpack);
+            // check expect message match 'Remove'.
+        expect(await this.page.locator('[name="remove-sauce-labs-backpack"]')).toContainText('Remove');
+        await this.page.click(this.locatorAddSauceLabsBikeLight);
+        expect(await this.page.locator('[name="remove-sauce-labs-bike-light"]')).toContainText('Remove');
+        await this.page.click(this.locatorAddSauceLabsBoltTShirt);
+        expect(await this.page.locator('[name="remove-sauce-labs-bolt-t-shirt"]')).toContainText('Remove');
+        await this.page.click(this.locatorAddSauceLabsFleeceJacket);
+        expect(await this.page.locator('[name="remove-sauce-labs-fleece-jacket"]')).toContainText('Remove');
+        await this.page.click(this.locatorAddSauceLabsOnesie);
+        expect(await this.page.locator('[name="remove-sauce-labs-onesie"]')).toContainText('Remove');
+        await this.page.click(this.locatorAddTestAllTheThingTShirtRed);
+        expect(await this.page.locator('[name="remove-test.allthethings()-t-shirt-(red)"]')).toContainText('Remove');
         /*
         console.log('Sauce Labs Backpack:', await this.page.locator('[data-test="inventory-item-desc"]').nth(0).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsBackpack);
         console.log('Sauce Labs Bike Light:', await this.page.locator('[data-test="inventory-item-desc"]').nth(1).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsBikeLight);
         console.log('Sauce Labs Bolt T-Shirt:', await this.page.locator('[data-test="inventory-item-desc"]').nth(2).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsBoltTShirt);
         console.log('Sauce Labs Fleece Jacket:', await this.page.locator('[data-test="inventory-item-desc"]').nth(3).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsFleeceJacket);
         console.log('Sauce Labs Onesie:', await this.page.locator('[data-test="inventory-item-desc"]').nth(4).textContent(),'\n');
-        await this.page.click(this.locatorAddSauceLabsOnesie);
         console.log('Test.allTheThings() T-Shirt (Red):', await this.page.locator('[data-test="inventory-item-desc"]').nth(5).textContent(),'\n');
-        await this.page.click(this.locatorAddTestAllTheThingTShirtRed);
         */
     }
 

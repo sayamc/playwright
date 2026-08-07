@@ -30,12 +30,12 @@ const invalidUsers = [
         password: "secret_sauce"
     },
     {
-        username: "testt_user",
+        username: "test_user",
         password: "secret_sauce"
     }
 ];
 
-module.exports = {
+module.exports = {      // define export this function to other calls.
     validUsers,
     problemUsers,
     invalidUsers,

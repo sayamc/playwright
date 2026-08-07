@@ -81,3 +81,8 @@ git clone git@github.com:sayamc/playwright.git
 git clone -b "branch-name" git@github.com:sayamc/playwright.git
 
 
+## Git change back commit version
+git log
+// find the commit id you want
+git checkout <commitId> 
+git commit -m "Restoring old source code"
