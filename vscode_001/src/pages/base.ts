@@ -1,17 +1,28 @@
 import { test as base } from "@playwright/test";    // import "test" to alias name "base" or othor name
 import { LoginPage } from "./login.page";
+import { seleniumPage } from "./selenium_webform";
 
 /* Fixture define to Unique for some test run. */
-
 // With fixtures, you can group tests based on their meaning, instead of their common setup.
 type baseFixtures = {           // define type name "baseFixtures"
     loginFixture: LoginPage,    // define fixtures "loginFixture" to uses in class LoginPage from file login.page.js
 }
-
 // this "page" isolated page for this test run(define only this class test).
 export const test = base.extend<baseFixtures>({    // export "baseFixtures" to uses on other file fuction.
     loginFixture: async ({ page }, use) => {       // this "page" isolate for "loginFixture" test
         await use(new LoginPage(page)); 
+    },
+})
+
+
+// With fixtures, for test webform selenium
+type seleniumBaseFixtures = {           // define type name "seleniumBaseFixtures"
+    seleniumFixture: seleniumPage,      // define fixtures "seleniumFixture" to uses in class seleniumWebForm from file selenium_webform.js
+}
+// this "page" isolated page for this test run(define only this class test).
+export const selenium = base.extend<seleniumBaseFixtures>({     // export "baseFixtures" to uses on other file fuction.
+    seleniumFixture: async ({ page }, use) => {                 // this "page" isolate for "seleniumFixture" test
+        await use(new seleniumPage(page)); 
     },
 })
 
@@ -53,3 +64,4 @@ Playwright จะทำงานตามลำดับนี้
 ปิดการเชื่อมต่อฐานข้อมูล, ลบไฟล์ชั่วคราว หรือคืนค่าการตั้งค่าต่าง ๆ
 
 */
+

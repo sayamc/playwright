@@ -1,4 +1,3 @@
-//import { Page } from "@playwright/test";
 import { Page, expect } from "@playwright/test";
 import { removeSlashUrl } from "../utils";
 import { url } from "node:inspector";

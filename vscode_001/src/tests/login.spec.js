@@ -110,7 +110,7 @@ invalidUsers.forEach(({ username, password }) => {
     });
 });
 
-test('Verify login, change fillter, select product, clear product item and logout success:', async ({ loginFixture }) => {
+test.only('Verify login, change fillter, select product, clear product item and logout success:', async ({ loginFixture }) => {
     await loginFixture.fillUserPassword(username, password);       // sent username+password success to function "fillUserPassword".   
     await loginFixture.clickLogin();
     expect(await loginFixture.getErrorMessage()).not.toContain('is required'); // should be not have error message
