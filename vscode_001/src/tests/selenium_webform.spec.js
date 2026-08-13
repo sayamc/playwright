@@ -1,19 +1,19 @@
 import { expect } from "@playwright/test";
-import { selenium } from "../pages/base";         // import Fixture selenium than direct seleniumPage.
+import { test } from "../pages/base";         // import Fixture selenium than direct seleniumPage.
 
 
 
 /*  Test selenium webform */
-/*
-selenium.beforeEach(async ({ seleinumFixture }) => {      // Uses Fixtures "seleniumFixture" => "seleniumPage"
-    //const baseurl = 'https://www.selenium.dev/selenium/web/web-form.html';
-    //await seleinumFixture.goto(baseurl);
-    await seleinumFixture.goto();
+
+test.beforeEach(async ({ seleniumFixture }) => {      // Uses Fixtures "seleniumFixture" => "seleniumPage"
+    await seleniumFixture.goto();
+
 });
 
-selenium.only('Test selenium webform:', async ({ seleinumFixture }) => {
+
+test('Test selenium webform:', async ({ seleniumFixture }) => {
     console.log("Test selenium webform.")
-    //expect(seleinumFixture.isValidUrl()).toBe(false);
+    //expect(seleniumFixture.isValidUrl()).toBe(false);
     /*
     await loginFixture.welcome('username');    // welcome user message.
     await loginFixture.changeFilter();              // change fillter.
@@ -25,4 +25,3 @@ selenium.only('Test selenium webform:', async ({ seleinumFixture }) => {
     */
 });
 
-*/

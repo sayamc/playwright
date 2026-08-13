@@ -14,10 +14,11 @@ export class seleniumPage {
     constructor(page) {
         this.page = page;   // define constructor "this.page = page"
     }
-    
+
     baseurl = 'https://www.selenium.dev/selenium/web/web-form.html';      // define baseurl to uses.
     async goto() {
         await this.page.goto(this.baseurl);     // go to baseurl.
+        await this.page.waitForTimeout(5000);   // wait 5 seconds to continue.
     }
 
     isValidUrl() {                          // remove "/" lastUrlString

@@ -33,7 +33,7 @@ test('Input fileds should display as the data that was filed', async ({}) => {
     expect(await page.locator('#user-name').inputValue()).toBe('testuser')  // expect compare with insert value
     await page.locator('#password').fill('password');
     expect(await page.locator('#password').inputValue()).toBe('password')
-*/  
+*/
 /*
     // call Fixtures in class LoginPage
     const loginPage = new LoginPage(page);      // define class from login.page.js
@@ -45,7 +45,7 @@ test('Input fileds should display as the data that was filed', async ({}) => {
 });
 */
 
-
+/*
 // This part uses Fixtures from file "../pages/base" 
 // call loginFixture than define "const loginFixture = new LoginPage(page);"
 // ".beforeEach/.afterEach" run this first/last function every time to run. !!

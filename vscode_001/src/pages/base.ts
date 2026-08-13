@@ -2,19 +2,25 @@ import { test as base } from "@playwright/test";    // import "test" to alias na
 import { LoginPage } from "./login.page";
 import { seleniumPage } from "./selenium_webform";
 
+
 /* Fixture define to Unique for some test run. */
 // With fixtures, you can group tests based on their meaning, instead of their common setup.
 type baseFixtures = {           // define type name "baseFixtures"
     loginFixture: LoginPage,    // define fixtures "loginFixture" to uses in class LoginPage from file login.page.js
+    //seleniumFixture: seleniumPage,      // define fixtures "seleniumFixture" to uses in file selenium_webform.js
+    seleniumFixture: seleniumPage,
 }
 // this "page" isolated page for this test run(define only this class test).
 export const test = base.extend<baseFixtures>({    // export "baseFixtures" to uses on other file fuction.
     loginFixture: async ({ page }, use) => {       // this "page" isolate for "loginFixture" test
-        await use(new LoginPage(page)); 
+        await use(new LoginPage(page));
+    },
+    seleniumFixture: async ({ page }, use) => {    // this "page" isolate for "seleniumFixture" test
+        await use(new seleniumPage(page));
     },
 })
 
-
+/*
 // With fixtures, for test webform selenium
 type seleniumBaseFixtures = {           // define type name "seleniumBaseFixtures"
     seleniumFixture: seleniumPage,      // define fixtures "seleniumFixture" to uses in class seleniumWebForm from file selenium_webform.js
@@ -25,6 +31,8 @@ export const selenium = base.extend<seleniumBaseFixtures>({     // export "baseF
         await use(new seleniumPage(page)); 
     },
 })
+*/
+
 
 /*
 export const test =         // สร้างตัวแปร test แล้ว export ออกไป เพื่อให้ไฟล์ test อื่น ๆ สามารถ import ไปใช้งานได้
