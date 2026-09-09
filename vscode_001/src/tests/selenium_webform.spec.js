@@ -1,6 +1,5 @@
 // https://www.selenium.dev/selenium/web/index.html => page for test
-//import { test, expect } from "@playwright/test";
-import { expect } from "@playwright/test";
+//import { test, expect } from "@playwright/test";      // uses this import when normal script.
 import { test } from "../pages/base";         // import Fixture selenium than direct seleniumPage.
 
 /*

@@ -1,7 +1,6 @@
 /* https://www.selenium.dev/selenium/web/web-form.html */
 //import { Page } from "@playwright/test";
 import { Page, expect } from "@playwright/test";
-import { removeSlashUrl } from "../utils";
 
 
 export class seleniumPage {
