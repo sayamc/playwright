@@ -45,7 +45,7 @@ test('Input fileds should display as the data that was filed', async ({}) => {
 });
 */
 
-/*
+
 // This part uses Fixtures from file "../pages/base" 
 // call loginFixture than define "const loginFixture = new LoginPage(page);"
 // ".beforeEach/.afterEach" run this first/last function every time to run. !!
@@ -148,7 +148,8 @@ const password = 'secret_sauce';
 const firstname = 'Gorge';
 const lastname = 'MacJay';
 const postcode = '123456';
-/*
+
+/* # user web
 standard_user ,performance_glitch_user, visual_user
 problem_user, error_user
 locked_out_user, test_user

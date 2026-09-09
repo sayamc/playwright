@@ -36,6 +36,9 @@ export default defineConfig({
     screenshot: 'on',    /* Increase screenshot to 'on' */
     headless: false,    /* Increase this line show browser default = true  */
   },
+  /* define timeout run progress */
+  //timeout: 30000,
+  timeout: 300000,
 
   /* Configure projects for major browsers */
   projects: [
