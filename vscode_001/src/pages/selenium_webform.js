@@ -117,14 +117,14 @@ export class seleniumPage {
 
         // choose date
         await this.page.locator('[name="my-date"]').click();
-        await this.page.waitForTimeout(1000);
+        await waitTime();
         await this.page.locator('[data-date="1789430400000"]').click();      // from inspect it date 15/09/2026
-        await this.page.waitForTimeout(1000);
+        await waitTime();
 
         //await this.page.locator('button[type="submit"]').click();
             // or 
         await this.page.getByRole('button', {name: 'Submit' }).click();
-        await this.page.waitForTimeout(1000);
+        await waitTime();
     }
 
     async background() {  
