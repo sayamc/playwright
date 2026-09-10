@@ -16,21 +16,23 @@ export class seleniumPage {
     baseurl = 'https://www.selenium.dev/selenium/web/web-form.html';      // define baseurl to uses.
     async goto() {
         await this.page.goto(this.baseurl);     // go to baseurl.
-        //await this.page.waitForTimeout(5000);   // wait 5 seconds to continue.
     }
 
 
     async webform() {
-    console.log('Test selenium web-form');   
-        await this.page.locator('[name="my-text"]').fill('Text input 1');
+        console.log('Test selenium web-form');
+        const waitTime = () => this.page.waitForTimeout(1000);
+
+        //await this.page.locator('[name="my-text"]').clear();              // clear blank message before typing new message.
+        await this.page.locator('[name="my-text"]').fill('Text input 1');   // use fill(), no need to clear() function.
         expect(await this.page.locator('[name="my-text"]').inputValue()).toBe('Text input 1');  // check expect result input = 'Text input 1'
-        await this.page.waitForTimeout(1000);    
+        await waitTime();
         await this.page.locator('[name="my-password"]').fill('Password 1');
         expect(await this.page.locator('[name="my-password"]').inputValue()).toBe('Password 1');
-        await this.page.waitForTimeout(1000);
+        await waitTime();
         await this.page.locator('[name="my-textarea"]').fill('Hello, this box are area text message to Test!!');
         expect((await this.page.locator('[name="my-textarea"]').inputValue()).trim()).not.toBe('');    // check expect text area not empty!!
-        await this.page.waitForTimeout(1000);
+        await waitTime();
 
         // print message in box 
         console.log('Diabled input box :', await this.page.locator('[name="my-disabled"]').textContent());
@@ -41,82 +43,77 @@ export class seleniumPage {
         //await expect(page).toHaveURL(/index\.html/);        // check to index.html
 
         // change Dropdown(select) ถ้าเป็น select → ใช้ .selectOption() //
+        const my_select = this.page.locator('[name="my-select"]');
         await this.page.click('[name="my-select"]');
-        await this.page.locator('[name="my-select"]').selectOption('1');	// Open this select menu, 1, 2, 3
-        await this.page.waitForTimeout(1000);
+        await my_select.selectOption('1');	                    // Open this select menu, 1, 2, 3
+        await waitTime();
         await this.page.click('[name="my-select"]');
-        await this.page.locator('[name="my-select"]').selectOption('2');	// Open this select menu, 1, 2, 3
-        await this.page.waitForTimeout(1000);
+        await my_select.selectOption('2');	                    // Open this select menu, 1, 2, 3
+        await waitTime();
         await this.page.click('[name="my-select"]');
-        await this.page.locator('[name="my-select"]').selectOption('3');	// Open this select menu, 1, 2, 3
-        await this.page.waitForTimeout(1000);
+        await my_select.selectOption('3');	                    // Open this select menu, 1, 2, 3
+        await waitTime();
 
         // Browse file. method 1. direct file.
         await this.page.locator('[name="my-file"]').setInputFiles('/home/kim/jmeter.log');
-        await this.page.waitForTimeout(1000);
+        await waitTime();
 
         // change Dropdown(datalist) ถ้าเป็น datalist → ใช้ .fill() แล้ว .press('Enter') มักจะเหมาะที่สุด;  //
-        await this.page.locator('[name="my-datalist"]').fill('San Francisco');	// San Francisco, NewYork, Seattle, Los Angeles, Chicago
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-datalist"]').fill('NewYork');	// San Francisco, NewYork, Seattle, Los Angeles, Chicago
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-datalist"]').fill('Seattle');	// San Francisco, NewYork, Seattle, Los Angeles, Chicago
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-datalist"]').fill('Los Angeles');	// San Francisco, NewYork, Seattle, Los Angeles, Chicago
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-datalist"]').fill('Chicago');	// San Francisco, NewYork, Seattle, Los Angeles, Chicago
-        await this.page.waitForTimeout(1000);    
-        //await this.page.locator('[name="my-datalist"]').press('Enter');
+        const datalist = this.page.locator('[name="my-datalist"]');
+        const cities = ['San Francisco','New York','Seattle','Los Angeles','Chicago'];
+        await datalist.fill(cities[4]);
+        await waitTime();
+        await datalist.fill(cities[1]);
+        await waitTime();
+        await datalist.fill(cities[0]);
+        await waitTime();
+        await datalist.fill(cities[2]);
+        await waitTime();
+        await datalist.fill(cities[3]);
+        await waitTime();
+        // use loop array
+        for (const city of cities) {
+            await datalist.fill(city);
+            await waitTime();
+        }
 
         // checkbox list
-        await this.page.locator('#my-check-1').uncheck();    // check
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('#my-check-1').check();      // uncheck
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('#my-check-2').check();
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('#my-check-2').uncheck();
-        await this.page.waitForTimeout(1000);
+        const my_check1 = this.page.locator('#my-check-1');
+        const my_check2 = this.page.locator('#my-check-2');
+        await my_check1.uncheck();    // check
+        await waitTime();
+        await my_check1.check();      // uncheck
+        await waitTime();
+        await my_check2.check();
+        await waitTime();
+        await my_check2.uncheck();
+        await waitTime();
 
         // radio1 or radio2 ทั้ง 2 radio นี้ใช้ name="my-radio" เหมือนกัน ตัวอย่างนี้ check radio สลับไปมารอบ
-        await this.page.locator('#my-radio-2').check();
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('#my-radio-1').check();
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('#my-radio-2').check();
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('#my-radio-1').check();
-        await this.page.waitForTimeout(1000);
+        const my_radio1 = this.page.locator('#my-radio-1');
+        const my_radio2 = this.page.locator('#my-radio-2');
+        await my_radio2.check();
+        await waitTime();
+        await my_radio1.check();
+        await waitTime();
+        await my_radio2.check();
+        await waitTime();
+        await my_radio1.check();
+        await waitTime();
 
         // Color picker
         await this.page.locator('[name="my-colors"]').fill('#22e6dc');
-        await this.page.waitForTimeout(1000);
+        await waitTime();
 
-        // range bar level
-        await this.page.locator('[name="my-range"]').fill('0');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('1');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('2');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('3');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('4');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('5');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('6');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('7');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('8');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('9');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('10');
-        await this.page.waitForTimeout(1000);
-        await this.page.locator('[name="my-range"]').fill('6');
-        await this.page.waitForTimeout(1000);
+        // range bar level 0 - 10
+        const my_range = this.page.locator('[name="my-range"]');
+        const range = ['0','1','2','3','4','5','6','7','8','9','10'];
+        for (const i of range) {
+            await my_range.fill(i);
+            await waitTime();    
+        }
+        await my_range.fill(range[4]);
+        await waitTime();
 
         // choose date
         await this.page.locator('[name="my-date"]').click();
@@ -146,6 +143,5 @@ export class seleniumPage {
         const p_paragraph = await this.page.locator('p').allTextContents();        // only <p> text </p>
         console.log('Body :',p_paragraph);
     }
-
 
 }

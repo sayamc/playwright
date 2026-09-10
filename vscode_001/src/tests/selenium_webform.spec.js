@@ -1,18 +1,20 @@
 // https://www.selenium.dev/selenium/web/index.html => page for test
 //import { test, expect } from "@playwright/test";      // uses this import when normal script.
-import { test } from "../pages/base";         // import Fixture selenium than direct seleniumPage.
+import { test } from "../pages/base";               // import Fixture selenium than direct seleniumPage.
 
 /*
-test.beforeEach(async ({ page }) => {      // Uses Fixtures "seleniumFixture" => "seleniumPage"
+// Uses Fixtures "seleniumFixture" => "seleniumPage"
+test.beforeEach('Test first scenario to open webpage url', async ({ page }) => {
     const baseurl = 'https://www.selenium.dev/selenium/web/web-form.html';      // define baseurl to uses.
-    await page.goto(baseurl);          // go to baseurl.
+    await page.goto(baseurl);
 });
 
-test('Test selenium web-form.html', async ({ page }) => {
-    console.log('Test selenium web-form');   
+test('webform', async ({ page }) => {
+    console.log('Test selenium webform');
+    //await page.locator('[name="my-text"]').clear();                                  // clear blank message before typing new message.
     await page.locator('[name="my-text"]').fill('Text input 1');
     expect(await page.locator('[name="my-text"]').inputValue()).toBe('Text input 1');  // check expect result input = 'Text input 1'
-    await page.waitForTimeout(1000);    
+    await page.waitForTimeout(1000);
     await page.locator('[name="my-password"]').fill('Password 1');
     expect(await page.locator('[name="my-password"]').inputValue()).toBe('Password 1');
     await page.waitForTimeout(1000);
@@ -121,7 +123,7 @@ test('Test selenium web-form.html', async ({ page }) => {
 
   
 // Use fixture selenium/fixture
-test.beforeEach(async ({ seleniumFixture }) => {      // Uses Fixtures "seleniumFixture" => "seleniumPage"
+test.beforeEach('Test first scenario to open webpage url', async ({ seleniumFixture }) => {      // Uses Fixtures "seleniumFixture" => "seleniumPage"
     await seleniumFixture.goto();
 
 });
