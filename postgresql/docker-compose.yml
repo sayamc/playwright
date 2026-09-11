@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+    # ใช้สำหรับให้ Docker ตรวจว่า PostgreSQL “พร้อมใช้งานจริงหรือยัง” ไม่ใช่แค่ container ถูกเปิดขึ้นมาแล้ว
+    healthcheck:
+      # pg_isready เป็น utility ของ PostgreSQL สำหรับถามว่า PostgreSQL server พร้อมรับ connection หรือยัง
+      test: ["CMD-SHELL", "pg_isready -U testuser -d testdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

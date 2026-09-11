@@ -1,0 +1,14 @@
+{
+  "name": "postgresql",
+  "version": "1.0.0",
+  "type": "module",
+    "scripts": {
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.55.0",
+    "dotenv": "^17.4.2",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {}
+}

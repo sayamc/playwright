@@ -1,0 +1,112 @@
+import { test, expect } from '@playwright/test';
+import pg from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { Client } = pg;
+
+
+test('PostgreSQL connection', async () => {
+  const client = new Client({
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+  });
+
+  await client.connect();
+
+  const result = await client.query('SELECT 1 AS value');
+
+  expect(result.rows[0].value).toBe(1);
+
+  await client.end();
+});
+
+
+test('SQL CRUD test', async () => {
+  const client = new Client({           // read db parameter from file .env
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+  });
+  await client.connect();             // connect DB
+
+  // CREATE
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      email VARCHAR(255) UNIQUE NOT NULL
+    )
+  `);
+
+  // INSERT
+
+  const insert = await client.query(
+    `
+    INSERT INTO users (name, email)
+    VALUES ($1, $2)
+    RETURNING *
+    `,
+    ['John', 'john@test.com']
+  );
+  expect(insert.rows).toHaveLength(1);
+  expect(insert.rows[0].name).toBe('John');
+
+  // SELECT
+  const select = await client.query(
+    `
+    SELECT *
+    FROM users
+    WHERE email = $1
+    `,
+    ['john@test.com']
+  );
+  expect(select.rows).toHaveLength(1);
+  expect(select.rows[0].name).toBe('John');
+
+  // UPDATE
+  const update = await client.query(
+    `
+    UPDATE users
+    SET name = $1
+    WHERE email = $2
+    RETURNING *
+    `,
+    ['Johnny', 'john@test.com']
+  );
+  expect(update.rows[0].name).toBe('Johnny');
+ 
+  // DELETE
+  const deleteResult = await client.query(
+    `
+    DELETE FROM users
+    WHERE email = $1
+    RETURNING *
+    `,
+    ['john@test.com']
+  );
+  expect(deleteResult.rows).toHaveLength(1);
+
+  await client.end();                           // close connection DB.
+
+});
+
+/*
+# users
+  id  | name |      email       
+------+------+------------------
+ 1000 | Jack | Jack@example.com
+ 1001 | Jane | Jane@example.com
+
+ # info
+  id  | gender | status  |    job     
+------+--------+---------+------------
+ 1000 | male   | single  | engineer
+ 1001 | female | married | programmer
+*/
